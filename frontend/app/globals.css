@@ -1,0 +1,21 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root { color-scheme: light; }
+body { @apply bg-paper text-ink-900 font-sans antialiased; }
+.card { @apply bg-paper-100 border border-paper-300 rounded-xl shadow-card; }
+.btn { @apply inline-flex items-center justify-center gap-2 rounded-lg px-4 py-2 text-sm font-medium transition disabled:opacity-50 disabled:cursor-not-allowed; }
+.btn-primary { @apply btn bg-ink-900 text-paper-100 hover:bg-ink-700; }
+.btn-ghost { @apply btn border border-paper-300 bg-paper-100 hover:bg-paper-200 text-ink-900; }
+.btn-seal { @apply btn bg-seal text-white hover:bg-seal-600; }
+.btn-danger { @apply btn bg-alarm text-white hover:opacity-90; }
+.input { @apply w-full rounded-lg border border-paper-300 bg-white px-3 py-2 text-sm outline-none focus:border-ink-500 focus:ring-2 focus:ring-ink-300/40; }
+.label { @apply block text-xs font-semibold uppercase tracking-wider text-ink-500 mb-1; }
+.chip { @apply inline-flex items-center gap-1 rounded-full px-2.5 py-0.5 text-xs font-medium; }
+.tab { @apply px-3 py-2 text-sm rounded-lg text-ink-500 hover:text-ink-900 hover:bg-paper-200; }
+.tab-active { @apply px-3 py-2 text-sm rounded-lg bg-ink-900 text-paper-100; }
+.mono { @apply font-mono text-[12px]; }
+.blurred { filter: blur(6px); user-select: none; }
+@keyframes pulse-ring { 0% { box-shadow: 0 0 0 0 rgba(15,122,85,.45);} 100% { box-shadow: 0 0 0 14px rgba(15,122,85,0);} }
+.pulse-ring { animation: pulse-ring 1.4s ease-out infinite; }

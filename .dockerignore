@@ -1,0 +1,9 @@
+**/node_modules
+**/.next
+frontend/out
+desktop
+backend/storage
+backend/*.db
+backend/sample_docs
+**/__pycache__
+.git

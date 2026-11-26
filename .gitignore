@@ -1,0 +1,11 @@
+node_modules/
+.next/
+frontend/out/
+desktop/dist/
+backend/storage/
+backend/*.db
+backend/sample_docs/
+__pycache__/
+*.pyc
+.env
+.pytest_cache/

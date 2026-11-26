@@ -1,0 +1,34 @@
+name: CI
+on: [push, pull_request]
+jobs:
+  api-tests:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: { python-version: "3.13" }
+      - run: sudo apt-get update && sudo apt-get install -y tesseract-ocr fonts-dejavu-core
+      - run: pip install -r backend/requirements.txt
+      - run: cd backend && pytest -q tests
+  web-build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: { node-version: 20 }
+      - run: cd frontend && npm ci && npm run build
+  desktop:
+    needs: [web-build]
+    if: startsWith(github.ref, 'refs/tags/v')
+    strategy:
+      matrix: { os: [windows-latest, macos-latest] }
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: { node-version: 20 }
+      - run: cd desktop && npm ci
+      - run: cd desktop && npm run ${{ matrix.os == 'windows-latest' && 'dist:win' || 'dist:mac' }}
+        env: { CSC_IDENTITY_AUTO_DISCOVERY: "false" }
+      - uses: actions/upload-artifact@v4
+        with: { name: "verifyhire-desktop-${{ matrix.os }}", path: "desktop/dist/*.*" }
