@@ -70,6 +70,13 @@ async def security_and_telemetry(request: Request, call_next):
     if not request.url.path.startswith(("/docs", "/redoc")):
         response.headers["Content-Security-Policy"] = CSP
         response.headers["X-Frame-Options"] = "DENY"
+    # Pages must always be re-checked so a new deploy never pairs old HTML with deleted CSS/JS files;
+    # hashed build assets never change, so they can be cached for a year.
+    path = request.url.path
+    if path.startswith("/_next/static/"):
+        response.headers["Cache-Control"] = "public, max-age=31536000, immutable"
+    elif path in ("/sw.js", "/manifest.json") or response.headers.get("content-type", "").startswith("text/html"):
+        response.headers["Cache-Control"] = "no-cache"
     return response
 
 

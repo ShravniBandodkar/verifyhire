@@ -6,5 +6,5 @@ self.addEventListener('install', () => self.skipWaiting());
 self.addEventListener('activate', (e) => e.waitUntil(self.clients.claim()));
 self.addEventListener('fetch', (e) => {
   if (e.request.mode !== 'navigate') return; // API calls and assets always go straight to the network
-  e.respondWith(fetch(e.request).catch(() => new Response(OFFLINE, { headers: { 'Content-Type': 'text/html' } })));
+  e.respondWith(fetch(e.request, { cache: 'no-cache' }).catch(() => new Response(OFFLINE, { headers: { 'Content-Type': 'text/html' } })));
 });
